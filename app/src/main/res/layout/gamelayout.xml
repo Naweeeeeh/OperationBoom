@@ -1,139 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
-    android:background="#FFFFFF"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <ImageButton
-        android:id="@+id/menuButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"/>
-
-    <ImageButton
-        android:id="@+id/pausePlayButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_toEndOf="@id/menuButton"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:id="@+id/flagCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Flags: 1"
-        android:textSize="16sp"
-        android:layout_below="@id/pausePlayButton"
-        android:layout_alignStart="@id/pausePlayButton"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time: 0s"
-        android:textSize="16sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:id="@+id/score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Score: 0"
-        android:textSize="16sp"
-        android:layout_below="@id/timer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout"
-        android:layout_below="@id/score"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="554dp"
-        android:text="Level: 1"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/newGameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Game"
-        android:background="@drawable/borderradius"
-        android:layout_toEndOf="@id/timer"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:id="@+id/difficulty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Difficulty: Easy"
-        android:textSize="16sp"
-        android:layout_below="@id/newGameButton"
-        android:layout_alignStart="@id/newGameButton"
-        android:layout_marginTop="8dp"/>
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"/>
-
-
-    <GridLayout
-        android:id="@+id/minesweeperGrid"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/gameframelayout"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@id/level"
-        android:layout_marginTop="536dp"
-        android:layout_weight="1"
-        android:columnCount="8"
-        android:rowCount="8" />
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+    </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu"
+        />
 
-        <Button
-            android:id="@+id/flagsButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/borderradius"
-            android:text="Flags"
-            android:textColor="#FFFFFF" />
 
-        <Button
-            android:id="@+id/hintsButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/borderradius"
-            android:text="Hints"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

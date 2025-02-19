@@ -1,17 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".DeveloperFragment">
+    android:orientation="vertical"
+    android:padding="31dp">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:layout_width="143dp"
+        android:layout_height="118dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:background="@color/black"
+        android:contentDescription="eto ay image"
+        android:src="@drawable/devs" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Developer Fragment"
-        android:textColor="@color/white" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="60dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="The Developers"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="143dp"
+            android:layout_height="118dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:contentDescription="eto ay image"
+            android:src="@drawable/user1" />
+
+        <ImageView
+            android:layout_width="143dp"
+            android:layout_height="118dp"
+            android:layout_marginLeft="40dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:contentDescription="eto ay image"
+            android:src="@drawable/user2" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/Login"
+            android:layout_width="155dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/borderradius"
+            android:backgroundTint="@color/white"
+            android:text="BOISER"
+            android:textAlignment="center"
+            android:textSize="40px"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/signUp"
+            android:layout_width="155dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/borderradius"
+            android:backgroundTint="@color/white"
+            android:text="CABISO"
+            android:textAlignment="center"
+            android:textSize="40px"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</LinearLayout>

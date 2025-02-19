@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ledon"
+            android:src="@drawable/opboom"
             android:background="@drawable/borderradius"
             />
     </androidx.cardview.widget.CardView>
@@ -46,7 +46,6 @@
         android:gravity="center"
         android:text="Tap anywhere to continue"
         android:textColor="@color/white"
-
         />
 
 </LinearLayout>

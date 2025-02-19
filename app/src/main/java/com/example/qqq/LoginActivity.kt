@@ -14,9 +14,9 @@ class LoginActivity : Activity() {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
-
         val loginButton = findViewById<Button>(R.id.Login)
         val signUpButton = findViewById<Button>(R.id.signUp)
         val usernameEditText = findViewById<EditText>(R.id.username)
@@ -33,7 +33,6 @@ class LoginActivity : Activity() {
 
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please enter both username and password.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
             }
 
             val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)

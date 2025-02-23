@@ -51,7 +51,7 @@ class LoginActivity : Activity() {
 ////            }
 //        }
         loginButton.setOnClickListener {
-            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "BOOM", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
         }

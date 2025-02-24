@@ -3,10 +3,11 @@ import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt") // Add this line to enable kapt
 }
 
 android {
-    namespace = "com.example.qqq"
+    namespace = "com.example.opboom"
     compileSdk = 35
 
     defaultConfig {
@@ -26,9 +27,9 @@ android {
         }
     }
 
-    buildFeatures{
-        viewBinding = true
+    buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -48,4 +49,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Room dependencies
+    implementation("androidx.room:room-runtime:2.6.1") // Use the latest version
+    kapt("androidx.room:room-compiler:2.6.1") // Add this line for Room annotation processing
+    implementation("androidx.room:room-ktx:2.6.1") // Optional, for Kotlin extensions
+
+    // Coroutines (optional, but recommended for Room)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 }

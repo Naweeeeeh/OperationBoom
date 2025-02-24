@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.opboom.R
 
 class LoginActivity : Activity() {
     private lateinit var userRepository: UserRepository
@@ -22,15 +21,12 @@ class LoginActivity : Activity() {
         val usernameEditText = findViewById<EditText>(R.id.username) // Match this ID
         val passwordEditText = findViewById<EditText>(R.id.password) // Match this ID
 
-        // Initialize Room Database
         val database = AppDatabase.getDatabase(this)
         userRepository = UserRepository(database.userDao(), database.gameProgressDao())
 
-        // Retrieve username and password from Intent (if passed)
         val username = intent.getStringExtra("username")
         val password = intent.getStringExtra("password")
 
-        // Pre-fill the EditText fields if data is available
         if (!username.isNullOrEmpty()) {
             usernameEditText.setText(username)
         }

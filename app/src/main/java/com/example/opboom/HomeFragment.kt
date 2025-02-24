@@ -29,6 +29,8 @@ class HomeFragment : Fragment() {
     private var width = 8
     private var height = 8
     private var mines = 10
+    private var mineColor: Int = Color.RED
+    private var numberColor: Int = Color.BLUE
     private lateinit var mineField: Array<IntArray>
     private lateinit var revealed: Array<BooleanArray>
     private lateinit var buttons: Array<Array<Button?>>
@@ -50,13 +52,15 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val database = AppDatabase.getDatabase(requireContext())
-        userRepository = UserRepository(database.userDao(), database.gameProgressDao())
         gridLayout = view.findViewById(R.id.gridLayout)
         resultTextView = view.findViewById(R.id.resultTextView)
         resetButton = view.findViewById(R.id.resetButton)
         val flagButton = view.findViewById<Button>(R.id.flagButton)
-        timerTextView = view.findViewById(R.id.timerTextView) // Initialize timerTextView
+        timerTextView = view.findViewById(R.id.timerTextView)
+
+        loadSettings()
+
+        resetGame()
 
         resetButton.setOnClickListener {
             resetGame()
@@ -67,24 +71,19 @@ class HomeFragment : Fragment() {
             flagButton.text = if (flagMode) "🚩 Flag (ON)" else "🚩 Flag (OFF)"
         }
 
-        loadSettings()
-        resetGame()
+        startTimer()
 
-        startTimer() // Start the timer after everything is initialized
-
-        lifecycleScope.launch {
-            val userId = userRepository.registerUser("testUser", "testPassword")
-            currentUser = userRepository.loginUser("testUser", "testPassword")
-        }
-
-
+//        lifecycleScope.launch {
+//            val userId = userRepository.registerUser("testUser", "testPassword")
+//            currentUser = userRepository.loginUser("testUser", "testPassword")
+//        }
 
         return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        stopTimer() // Stop the timer when the fragment is destroyed
+        stopTimer()
     }
 
     private fun startTimer() {
@@ -101,29 +100,35 @@ class HomeFragment : Fragment() {
         width = sharedPref.getInt("width", 8)
         height = sharedPref.getInt("height", 8)
         mines = sharedPref.getInt("mines", 10)
+        mineColor = sharedPref.getInt("mineColor", Color.RED)
+        numberColor = sharedPref.getInt("numberColor", Color.BLUE)
 
-        // Initialize arrays with the correct size
+        println("width=$width height=$height mines=$mines mineColor=$mineColor numberColor=$numberColor")
+
         mineField = Array(height) { IntArray(width) }
         revealed = Array(height) { BooleanArray(width) }
         buttons = Array(height) { arrayOfNulls<Button>(width) }
     }
-
     private fun resetGame() {
-        stopTimer() // Stop the timer
+        stopTimer()
+
+        gridLayout.removeAllViews()
+
+        gridLayout.columnCount = width
+        gridLayout.rowCount = height
+
+        println("grid << columns=$width, rows=$height")
+
         mineField = Array(height) { IntArray(width) }
         revealed = Array(height) { BooleanArray(width) }
         buttons = Array(height) { arrayOfNulls<Button>(width) }
-
-        gridLayout.removeAllViews()
-        gridLayout.columnCount = width
-        gridLayout.rowCount = height
 
         placeMines()
         calculateNumbers()
         createGrid()
 
         resultTextView.visibility = View.GONE
-        startTimer() // Restart the timer
+        startTimer()
     }
 
     private fun placeMines() {
@@ -180,29 +185,26 @@ class HomeFragment : Fragment() {
 
     private fun handleClick(x: Int, y: Int) {
         if (flagMode) {
-            // Toggle flag on the tile
             if (!revealed[y][x]) {
                 buttons[y][x]?.text = if (buttons[y][x]?.text == "🚩") "" else "🚩"
             }
             return
         }
 
-        if (revealed[y][x] || buttons[y][x]?.text == "🚩") return // Skip if the tile is already revealed or flagged
-        revealed[y][x] = true // Mark the tile as revealed
+        if (revealed[y][x] || buttons[y][x]?.text == "🚩") return
+        revealed[y][x] = true
 
         if (mineField[y][x] == -1) {
-            // Tile is a mine
             buttons[y][x]?.text = "X"
-            buttons[y][x]?.setBackgroundColor(Color.RED)
+            buttons[y][x]?.setBackgroundColor(mineColor)
             gameOver()
         } else if (mineField[y][x] == 0) {
-            // Tile is empty (no adjacent mines)
             buttons[y][x]?.text = ""
             buttons[y][x]?.setBackgroundColor(Color.LTGRAY)
             revealAdjacent(x, y)
         } else {
-            // Tile has adjacent mines
             buttons[y][x]?.text = mineField[y][x].toString()
+            buttons[y][x]?.setTextColor(numberColor)
             buttons[y][x]?.setBackgroundColor(Color.LTGRAY)
         }
 
@@ -212,11 +214,11 @@ class HomeFragment : Fragment() {
     private fun revealAdjacent(x: Int, y: Int) {
         for (dy in -1..1) {
             for (dx in -1..1) {
-                if (dx == 0 && dy == 0) continue // Skip the current tile
-                val nx = x + dx
-                val ny = y + dy
+                if (dx == 0 && dy == 0) continue
+                val nx = x + dx //new x
+                val ny = y + dy //new y
                 if (nx in 0 until width && ny in 0 until height && !revealed[ny][nx]) {
-                    handleClick(nx, ny) // Recursively reveal adjacent tiles
+                    handleClick(nx, ny)
                 }
             }
         }
@@ -268,7 +270,6 @@ class HomeFragment : Fragment() {
             val userId = currentUser?.id ?: return@launch
             val gameProgress = userRepository.getGameProgress(userId)
             if (gameProgress != null) {
-                // Display best time and games played
                 resultTextView.text = "Best Time: ${gameProgress.bestTime} sec\nGames Played: ${gameProgress.gamesPlayed}"
             }
         }

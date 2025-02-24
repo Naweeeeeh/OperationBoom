@@ -64,7 +64,6 @@ class SettingsFragment : Fragment() {
         val height = heightInput.text.toString().toIntOrNull() ?: 8
         val mines = minesInput.text.toString().toIntOrNull() ?: 10
 
-        // Save settings to SharedPreferences
         val sharedPref = requireActivity().getSharedPreferences("MinesweeperSettings", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putInt("width", width)
@@ -75,11 +74,14 @@ class SettingsFragment : Fragment() {
             apply()
         }
 
-        // Update the bottom navigation bar to select the Home Fragment
+        AlertDialog.Builder(requireContext())
+            .setTitle("Settings Saved")
+            .setMessage("Your settings have been saved successfully.")
+            .setPositiveButton("OK", null)
+            .show()
+
         val activity = requireActivity() as GameActivity
         activity.binding.bottomNavView.selectedItemId = R.id.home
-
-        // Navigate back to HomeFragment
         activity.replaceFragment(HomeFragment())
     }
 

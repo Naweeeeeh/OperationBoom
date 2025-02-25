@@ -10,14 +10,22 @@
 
     <Button
         android:id="@+id/backButton"
-        android:layout_width="100dp"
+        android:layout_width="59dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/borderradius"
+        android:background="@drawable/TODO"
         android:backgroundTint="@color/white"
-        android:text="Back"
-        android:textSize="14sp"
+        android:text="←"
+        android:textSize="26sp"
         android:textStyle="bold" />
 
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="60px"
+        android:src="@drawable/user"
+        android:contentDescription="eto ay image"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,78 +39,76 @@
         android:fontFamily="sans-serif-condensed-light"
         android:layout_marginBottom="50dp"/>
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:background="@color/white"
-        android:src="@drawable/registration"
-        android:contentDescription="eto ay image"
-        />
-    <TextView
-        android:layout_marginTop="50dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        android:textColor="@color/white"
-        android:textSize="12sp"/>
+
+<!--    <TextView-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Username"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="12sp"/>-->
     <EditText
         android:id="@+id/username"
+        android:layout_marginTop="50dp"
+        android:text="Username"
+        android:textSize="15sp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/borderradius"
+        android:paddingStart="20dp"
         android:backgroundTint="@color/white"
         android:textColorHint="@color/white"
         android:layout_marginBottom="20dp"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:textColor="@color/white"
-        android:textSize="12sp"/>
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Password"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="12sp"/>-->
     <EditText
-        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@drawable/borderradius"
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/black"
+        android:hint="@string/password"
+        android:paddingStart="20dp"
+        android:textStyle="normal"
+        android:textSize="15sp"
+        android:inputType="textPassword"
+        android:layout_marginBottom="25dp"/>
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Confirm Password"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="12sp"/>-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/borderradius"
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/black"
+        android:hint="@string/confirmpassword"
+        android:paddingStart="20dp"
+        android:textStyle="normal"
+        android:textSize="15sp"
+        android:inputType="textPassword"
+        android:layout_marginBottom="25dp"/>
 
-        android:layout_marginBottom="20dp"
-        android:textColor="@color/white"
-        android:background="@drawable/borderradius"
-        android:textStyle="italic"
-        android:textColorHint="@color/white"
-        android:backgroundTint="@color/white"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm Password"
-        android:textColor="@color/white"
-        android:textSize="12sp"/>
-    <EditText
-        android:id="@+id/confirmpassword"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textColor="@color/white"
-        android:background="@drawable/borderradius"
-        android:textStyle="italic"
-        android:textColorHint="@color/white"
-        android:backgroundTint="@color/white"
-        />
     <Button
         android:id="@+id/register"
-        android:layout_marginTop="60dp"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="50dp"
-        android:textStyle="bold"
-        android:textSize="23sp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/borderradius"
         android:backgroundTint="@color/white"
-        android:textAlignment="center"
-        android:padding="7sp"
+        android:padding="4sp"
         android:text="CREATE ACCOUNT"
-        />
-
+        android:textAlignment="center"
+        android:textSize="23sp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>

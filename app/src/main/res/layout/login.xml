@@ -52,6 +52,7 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/loginusername"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/borderradius"
@@ -63,7 +64,7 @@
         android:layout_marginBottom="15dp"/>
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/loginpassword"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/borderradius"

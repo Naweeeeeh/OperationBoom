@@ -23,11 +23,11 @@ class RegistrationActivity : Activity() {
         val database = AppDatabase.getDatabase(this)
         userRepository = UserRepository(database.userDao(), database.gameProgressDao())
 
-        val registerButton = findViewById<Button>(R.id.register) // Match this ID
-        val backButton = findViewById<Button>(R.id.backButton) // Match this ID
-        val usernameEditText = findViewById<EditText>(R.id.username) // Match this ID
-        val passwordEditText = findViewById<EditText>(R.id.password) // Match this ID
-        val confirmPasswordEditText = findViewById<EditText>(R.id.confirmpassword) // Match this ID
+        val registerButton = findViewById<Button>(R.id.register)
+        val backButton = findViewById<Button>(R.id.backButton)
+        val usernameEditText = findViewById<EditText>(R.id.registerusername)
+        val passwordEditText = findViewById<EditText>(R.id.registerpassword)
+        val confirmPasswordEditText = findViewById<EditText>(R.id.confirmpassword)
 
         registerButton.setOnClickListener {
             val username = usernameEditText.text.toString()
@@ -36,7 +36,6 @@ class RegistrationActivity : Activity() {
 
             if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
             }
 
             if (password != confirmPassword) {
@@ -44,7 +43,6 @@ class RegistrationActivity : Activity() {
                 return@setOnClickListener
             }
 
-            // Perform registration in a coroutine
             CoroutineScope(Dispatchers.Main).launch {
                 val existingUser = userRepository.getUserByUsername(username)
                 if (existingUser != null) {
@@ -54,13 +52,12 @@ class RegistrationActivity : Activity() {
                     if (userId > 0) {
                         Toast.makeText(this@RegistrationActivity, "Registration successful", Toast.LENGTH_SHORT).show()
 
-                        // Pass username and password to LoginActivity
                         val intent = Intent(this@RegistrationActivity, LoginActivity::class.java).apply {
                             putExtra("username", username)
                             putExtra("password", password)
                         }
                         startActivity(intent)
-                        finish() // Close the RegistrationActivity
+                        finish()
                     } else {
                         Toast.makeText(this@RegistrationActivity, "Registration failed", Toast.LENGTH_SHORT).show()
                     }
@@ -72,7 +69,7 @@ class RegistrationActivity : Activity() {
             Toast.makeText(this, "Back to Login", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish() // Close the RegistrationActivity
+            finish()
         }
     }
 }

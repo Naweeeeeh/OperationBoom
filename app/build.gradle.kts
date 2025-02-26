@@ -51,10 +51,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // Room dependencies
-    implementation("androidx.room:room-runtime:2.6.1") // Use the latest version
-    kapt("androidx.room:room-compiler:2.6.1") // Add this line for Room annotation processing
-    implementation("androidx.room:room-ktx:2.6.1") // Optional, for Kotlin extensions
+
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 
     // Coroutines (optional, but recommended for Room)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")

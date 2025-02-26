@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : Activity() {
     private lateinit var userRepository: UserRepository
@@ -16,22 +19,26 @@ class LoginActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
-        val loginButton = findViewById<Button>(R.id.Login) // Match this ID
-        val signUpButton = findViewById<Button>(R.id.signUp) // Match this ID
-        val usernameEditText = findViewById<EditText>(R.id.username) // Match this ID
-        val passwordEditText = findViewById<EditText>(R.id.password) // Match this ID
+        val loginButton = findViewById<Button>(R.id.Login)
+        val signUpButton = findViewById<Button>(R.id.signUp)
+        val usernameEditText = findViewById<EditText>(R.id.loginusername)
+        val passwordEditText = findViewById<EditText>(R.id.loginpassword)
+
+        val registerUsername = findViewById<EditText>(R.id.registerusername)
+        val registerPassword = findViewById<EditText>(R.id.registerpassword)
 
         val database = AppDatabase.getDatabase(this)
         userRepository = UserRepository(database.userDao(), database.gameProgressDao())
 
-        val username = intent.getStringExtra("username")
-        val password = intent.getStringExtra("password")
-
-        if (!username.isNullOrEmpty()) {
-            usernameEditText.setText(username)
+        intent?.let {
+            intent.getStringExtra("username")?.let { user ->
+                usernameEditText.setText(user)
+            }
         }
-        if (!password.isNullOrEmpty()) {
-            passwordEditText.setText(password)
+        intent?.let {
+            intent.getStringExtra("password")?.let { pass ->
+                passwordEditText.setText(pass)
+            }
         }
 
         signUpButton.setOnClickListener {
@@ -39,34 +46,40 @@ class LoginActivity : Activity() {
             startActivity(intent)
         }
 
-//        loginButton.setOnClickListener {
-//            val enteredUsername = usernameEditText.text.toString()
-//            val enteredPassword = passwordEditText.text.toString()
+        loginButton.setOnClickListener {
+            val enteredUsername = usernameEditText
+            val enteredPassword = passwordEditText
+
+            if (enteredUsername.text.toString().isEmpty() || enteredPassword.text.toString().isEmpty()) {
+                Toast.makeText(this, "Please enter username and password", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+                Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, GameActivity::class.java)
+                startActivity(intent)
+
+
+
 //
-//            if (enteredUsername.isEmpty() || enteredPassword.isEmpty()) {
-//                Toast.makeText(this, "Please enter username and password", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//
-//            // Perform login in a coroutine
 //            CoroutineScope(Dispatchers.Main).launch {
-//                val user = userRepository.loginUser(enteredUsername, enteredPassword)
+//                val user = userRepository.loginUser(enteredUsername.text.toString(), enteredPassword.text.toString())
 //                if (user != null) {
 //                    Toast.makeText(this@LoginActivity, "Welcome, ${user.username}!", Toast.LENGTH_SHORT).show()
 //                    val intent = Intent(this@LoginActivity, GameActivity::class.java)
-//                    intent.putExtra("userId", user.id) // Pass the user ID to GameActivity
+//                    intent.putExtra("userId", user.id)
 //                    startActivity(intent)
-//                    finish() // Close the LoginActivity
+//                    finish()
 //                } else {
 //                    Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
 //                }
-//            } trying so hard wwwwwwwwhyyyyyyyyyyyy
-//        } pls do ignore these, trial and error for the login activity. Tried communicating from class to class but failed
-        // so yea I guess I'll find some help soon
-        loginButton.setOnClickListener {
-            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, GameActivity::class.java)
-            startActivity(intent)
+//            } //trying so hard wwwwwwwwhyyyyyyyyyyyy
+//         } //pls do ignore these, trial and error for the login activity. Tried communicating from class to class but failed
+            // so yea I guess I'll find some help soon
         }
+//        loginButton.setOnClickListener {
+//            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
+//            val intent = Intent(this, GameActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 }

@@ -18,9 +18,6 @@ import kotlin.random.Random
 
 class HomeFragment : Fragment() {
 
-
-    private lateinit var userRepository: UserRepository
-    private var currentUser: User? = null
     private lateinit var gridLayout: GridLayout
     private lateinit var resultTextView: TextView
     private lateinit var resetButton: Button
@@ -248,30 +245,4 @@ class HomeFragment : Fragment() {
         resultTextView.visibility = View.VISIBLE
     }
 
-    private fun saveGameProgress(time: Long) {
-        lifecycleScope.launch {
-            val userId = currentUser?.id ?: return@launch
-            var gameProgress = userRepository.getGameProgress(userId)
-            if (gameProgress == null) {
-                gameProgress = GameProgress(userId = userId, bestTime = time, gamesPlayed = 1)
-                userRepository.insertGameProgress(gameProgress)
-            } else {
-                if (time < gameProgress.bestTime) {
-                    gameProgress.bestTime = time
-                }
-                gameProgress.gamesPlayed++
-                userRepository.updateGameProgress(gameProgress)
-            }
-        }
-    }
-
-    private fun loadGameProgress() {
-        lifecycleScope.launch {
-            val userId = currentUser?.id ?: return@launch
-            val gameProgress = userRepository.getGameProgress(userId)
-            if (gameProgress != null) {
-                resultTextView.text = "Best Time: ${gameProgress.bestTime} sec\nGames Played: ${gameProgress.gamesPlayed}"
-            }
-        }
-    }
 }

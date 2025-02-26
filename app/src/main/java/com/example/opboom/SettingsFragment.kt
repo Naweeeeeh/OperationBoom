@@ -28,8 +28,8 @@ class SettingsFragment : Fragment() {
     private lateinit var saveButton: Button
     private lateinit var mineColorPickerButton: Button
     private lateinit var numberColorPickerButton: Button
-    private var selectedMineColor: Int = Color.RED // Default mine color
-    private var selectedNumberColor: Int = Color.BLUE // Default number color
+    private var selectedMineColor: Int = Color.RED
+    private var selectedNumberColor: Int = Color.BLUE
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

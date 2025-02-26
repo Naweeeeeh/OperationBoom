@@ -50,14 +50,17 @@ class LoginActivity : Activity() {
             val enteredUsername = usernameEditText
             val enteredPassword = passwordEditText
 
-            if (enteredUsername.text.toString().isEmpty() || enteredPassword.text.toString().isEmpty()) {
-                Toast.makeText(this, "Please enter username and password", Toast.LENGTH_SHORT).show()
+            if (enteredUsername.text.toString().isEmpty() || enteredPassword.text.toString()
+                    .isEmpty()
+            ) {
+                Toast.makeText(this, "Please enter username and password", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
-                Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, GameActivity::class.java)
-                startActivity(intent)
-
+            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, GameActivity::class.java)
+            startActivity(intent)
+        }
 
 
 //
@@ -81,5 +84,5 @@ class LoginActivity : Activity() {
 //            val intent = Intent(this, GameActivity::class.java)
 //            startActivity(intent)
 //        }
-    }
+
 }

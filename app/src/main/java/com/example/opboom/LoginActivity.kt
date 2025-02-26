@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginActivity : Activity() {
-    private lateinit var userRepository: UserRepository
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,8 +26,6 @@ class LoginActivity : Activity() {
         val registerUsername = findViewById<EditText>(R.id.registerusername)
         val registerPassword = findViewById<EditText>(R.id.registerpassword)
 
-        val database = AppDatabase.getDatabase(this)
-        userRepository = UserRepository(database.userDao(), database.gameProgressDao())
 
         intent?.let {
             intent.getStringExtra("username")?.let { user ->

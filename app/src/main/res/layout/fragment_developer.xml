@@ -5,27 +5,28 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:orientation="vertical"
-    android:padding="31dp">
+    android:padding="40dp">
 
-    <ImageView
-        android:layout_width="143dp"
-        android:layout_height="118dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:background="@color/black"
-        android:contentDescription="eto ay image"
-        android:src="@drawable/devs" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="60dp"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="sans-serif-condensed-light"
-        android:text="The Developers"
+        android:fontFamily="fantasy"
+        android:text="The"
+        android:layout_marginTop="80dp"
         android:textColor="@color/white"
         android:textSize="30sp"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="fantasy"
+        android:text="DEVELOPERS"
+        android:textColor="@color/white"
+        android:layout_marginBottom="140dp"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -39,8 +40,7 @@
             android:layout_height="118dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:contentDescription="eto ay image"
-            android:src="@drawable/user1" />
+            android:src="@drawable/boiser" />
 
         <ImageView
             android:layout_width="143dp"
@@ -48,15 +48,15 @@
             android:layout_marginLeft="40dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:contentDescription="eto ay image"
-            android:src="@drawable/user2" />
+            android:src="@drawable/cabiso" />
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        >
 
         <Button
             android:id="@+id/boiser"
@@ -64,7 +64,7 @@
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="10dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="50dp"
             android:background="@drawable/borderradius"
             android:backgroundTint="@color/white"
             android:text="BOISER"

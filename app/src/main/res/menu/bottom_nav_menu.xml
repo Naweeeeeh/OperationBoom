@@ -6,18 +6,18 @@
         android:id="@+id/home"
         android:icon="@drawable/home"
         />
-    <item android:title="Settings"
-        android:id="@+id/settings"
-        android:icon="@drawable/settings"
+    <item android:title="Profile"
+        android:id="@+id/profile"
+        android:icon="@drawable/profile"
         />
     <item android:title="Developer"
         android:id="@+id/developer"
         android:icon="@drawable/developericon"
         />
-    <item android:title="Profile"
-    android:id="@+id/profile"
-    android:icon="@drawable/profile"
-    />
+    <item android:title="Settings"
+        android:id="@+id/settings"
+        android:icon="@drawable/settings"
+        />
     <item android:title="Logout"
         android:id="@+id/logout"
         android:icon="@drawable/logout"

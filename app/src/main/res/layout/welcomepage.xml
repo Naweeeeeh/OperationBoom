@@ -8,44 +8,34 @@
     android:gravity="center">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="234dp"
+        android:layout_height="399dp"
         android:layout_marginTop="30dp"
-        app:cardCornerRadius="50dp"
         android:backgroundTint="#000000"
+        app:cardCornerRadius="50dp"
         app:cardElevation="8dp">
 
         <ImageView
-            android:layout_width="239dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="313dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="30dp"
             android:background="@drawable/borderradius"
             android:scaleType="centerCrop"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/opboom" />
+            android:src="@drawable/logo" />
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="OPERATION: B00M"
-        android:textStyle="bold"
-        android:textSize="30sp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:fontFamily="sans-serif-medium" />
 
     <Button
         android:id="@+id/welcomeID"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="10dp"
         android:layout_weight="1"
         android:background="@android:color/transparent"
+        android:fontFamily="fantasy"
         android:gravity="center"
+        android:text="Tap here to continue"
         android:textAllCaps="true"
-        android:textSize="18sp"
-        android:text="Tap anywhere to continue"
         android:textColor="@color/white"
-        android:fontFamily="sans-serif" />
+        android:textSize="19dp" />
 
 </LinearLayout>

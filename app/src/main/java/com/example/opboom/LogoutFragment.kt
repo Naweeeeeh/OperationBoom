@@ -13,11 +13,12 @@ class LogoutFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        showLogoutConfirmationDialog()
         val view = inflater.inflate(R.layout.fragment_logout, container, false)
-        val btnLogout: Button = view.findViewById(R.id.btn_logout)
-        btnLogout.setOnClickListener {
-            showLogoutConfirmationDialog()
-        }
+//        val btnLogout: Button = view.findViewById(R.id.btn_logout)
+//        btnLogout.setOnClickListener {
+//            showLogoutConfirmationDialog()
+//        }
         return view
     }
 

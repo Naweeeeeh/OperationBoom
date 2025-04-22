@@ -1,27 +1,30 @@
 package com.example.opboom
 
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
+import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.MediaStore
-import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.GridView
 import android.widget.ImageView
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 
 class ProfileFragment : Fragment() {
 
     private lateinit var profileImageView: ImageView
-    private var currentPhotoPath: String? = null
+    private lateinit var sharedPref: SharedPreferences
+    private val avatarIcons = listOf(
+        R.drawable.ledon,
+        R.drawable.cat,
+        R.drawable.hacker,
+        R.drawable.sigmaboy
+    )
+    private val AVATAR_PREF_KEY = "selected_avatar"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,96 +32,56 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        // Initialize views
+        sharedPref = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         profileImageView = view.findViewById(R.id.profileID)
+        val usernameTextView = view.findViewById<TextView>(R.id.username)
+        val rankTextView = view.findViewById<TextView>(R.id.rank)
         val editAvatarButton = view.findViewById<Button>(R.id.editAvatar)
 
+        // Load saved username or default
+        val username = sharedPref.getString("username", "Player") ?: "Player"
+        usernameTextView.text = "Welcome $username!"
+
+        // Set rank based on username length (customize this logic)
+        rankTextView.text = "Rank: ${getUserRank(username)}"
+
+        // Load saved avatar or default
+        val savedAvatar = sharedPref.getInt(AVATAR_PREF_KEY, R.drawable.ledon)
+        profileImageView.setImageResource(savedAvatar)
+
         editAvatarButton.setOnClickListener {
-            showImagePickerDialog()
+            showAvatarSelectionDialog()
         }
         return view
     }
 
-    private fun showImagePickerDialog() {
-        val options = arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
-        val builder = android.app.AlertDialog.Builder(requireContext())
-        builder.setTitle("Change Profile Picture")
-        builder.setItems(options) { dialog, item ->
-            when (options[item]) {
-                "Take Photo" -> takePhoto()
-                "Choose from Gallery" -> chooseFromGallery()
-                "Cancel" -> dialog.dismiss()
-            }
-        }
-        builder.show()
-    }
-
-    private fun takePhoto() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (intent.resolveActivity(requireActivity().packageManager) != null) {
-            val photoFile: File? = try {
-                createImageFile()
-            } catch (ex: IOException) {
-                null
-            }
-            photoFile?.also {
-                val photoURI: Uri = FileProvider.getUriForFile(
-                    requireContext(),
-                    "${requireContext().packageName}.fileprovider",
-                    it
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
-            }
+    private fun getUserRank(username: String): String {
+        return when {
+            username.length < 5 -> "Newbie"
+            username.length < 10 -> "Intermediate"
+            else -> "Minesweeper Master"
         }
     }
 
-    private fun chooseFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, REQUEST_IMAGE_PICK)
-    }
+    private fun showAvatarSelectionDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_avatar_grid, null)
+        val gridView = dialogView.findViewById<GridView>(R.id.avatarGrid)
 
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File? = requireActivity().getExternalFilesDir("Pictures")
-        return File.createTempFile(
-            "JPEG_${timeStamp}_",
-            ".jpg",
-            storageDir
-        ).apply {
-            currentPhotoPath = absolutePath
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_IMAGE_CAPTURE -> {
-                    currentPhotoPath?.let { path ->
-                        val file = File(path)
-                        val imageUri = FileProvider.getUriForFile(
-                            requireContext(),
-                            "${requireContext().packageName}.fileprovider",
-                            file
-                        )
-                        profileImageView.setImageURI(imageUri)
-                    }
-                }
-                REQUEST_IMAGE_PICK -> {
-                    val selectedImageUri: Uri? = data?.data
-                    selectedImageUri?.let {
-                        profileImageView.setImageURI(it)
-                    }
-                }
+        val adapter = AvatarAdapter(requireContext(), avatarIcons) { selectedIcon ->
+            with(sharedPref.edit()) {
+                putInt(AVATAR_PREF_KEY, selectedIcon)
+                apply()
             }
+            profileImageView.setImageResource(selectedIcon)
         }
-    }
 
-    companion object {
-        private const val REQUEST_IMAGE_CAPTURE = 1
-        private const val REQUEST_IMAGE_PICK = 2
-    }
+        gridView.adapter = adapter
 
+        AlertDialog.Builder(requireContext())
+            .setTitle("Select Avatar")
+            .setView(dialogView)
+            .setNegativeButton("Done") { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+    }
 }

@@ -32,6 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var revealed: Array<BooleanArray>
     private lateinit var buttons: Array<Array<Button?>>
     private var flagMode = false
+    private var firstClick = true
 
     private var startTime: Long = 0
     private val handler = Handler(Looper.getMainLooper())
@@ -56,7 +57,6 @@ class HomeFragment : Fragment() {
         timerTextView = view.findViewById(R.id.timerTextView)
 
         loadSettings()
-
         resetGame()
 
         resetButton.setOnClickListener {
@@ -67,13 +67,6 @@ class HomeFragment : Fragment() {
             flagMode = !flagMode
             flagButton.text = if (flagMode) "🚩 Flag (ON)" else "🚩 Flag (OFF)"
         }
-
-        startTimer()
-
-//        lifecycleScope.launch {
-//            val userId = userRepository.registerUser("testUser", "testPassword")
-//            currentUser = userRepository.loginUser("testUser", "testPassword")
-//        }
 
         return view
     }
@@ -106,9 +99,10 @@ class HomeFragment : Fragment() {
         revealed = Array(height) { BooleanArray(width) }
         buttons = Array(height) { arrayOfNulls<Button>(width) }
     }
+
     private fun resetGame() {
         stopTimer()
-
+        firstClick = true
         gridLayout.removeAllViews()
 
         gridLayout.columnCount = width
@@ -120,22 +114,31 @@ class HomeFragment : Fragment() {
         revealed = Array(height) { BooleanArray(width) }
         buttons = Array(height) { arrayOfNulls<Button>(width) }
 
-        placeMines()
-        calculateNumbers()
+        // Don't place mines yet - wait for first click
         createGrid()
 
         resultTextView.visibility = View.GONE
+    }
+
+    private fun initializeGameAfterFirstClick(firstX: Int, firstY: Int) {
+        placeMines(firstX, firstY)
+        calculateNumbers()
         startTimer()
     }
 
-    private fun placeMines() {
+    private fun placeMines(safeX: Int, safeY: Int) {
         var minesPlaced = 0
         while (minesPlaced < mines) {
             val x = Random.nextInt(width)
             val y = Random.nextInt(height)
-            if (mineField[y][x] != -1) {
-                mineField[y][x] = -1
-                minesPlaced++
+            // Don't place mine on the first clicked cell or adjacent cells
+            val isSafeZone = (x == safeX && y == safeY) ||
+                    (x in (safeX - 1)..(safeX + 1) && y in (safeY - 1)..(safeY + 1))
+            if (!isSafeZone) {
+                if (mineField[y][x] != -1) {
+                    mineField[y][x] = -1
+                    minesPlaced++
+                }
             }
         }
     }
@@ -189,10 +192,16 @@ class HomeFragment : Fragment() {
         }
 
         if (revealed[y][x] || buttons[y][x]?.text == "🚩") return
+
+        if (firstClick) {
+            firstClick = false
+            initializeGameAfterFirstClick(x, y)
+        }
+
         revealed[y][x] = true
 
         if (mineField[y][x] == -1) {
-            buttons[y][x]?.text = "X"
+            buttons[y][x]?.text = "\uD83D\uDCA3"
             buttons[y][x]?.setBackgroundColor(mineColor)
             gameOver()
         } else if (mineField[y][x] == 0) {
@@ -226,7 +235,7 @@ class HomeFragment : Fragment() {
         for (y in 0 until height) {
             for (x in 0 until width) {
                 if (mineField[y][x] == -1) {
-                    buttons[y][x]?.text = "X"
+                    buttons[y][x]?.text = "\uD83D\uDCA3"
                 }
             }
         }
@@ -244,5 +253,4 @@ class HomeFragment : Fragment() {
         resultTextView.text = "Congratulations! Time: ${(System.currentTimeMillis() - startTime) / 1000} sec"
         resultTextView.visibility = View.VISIBLE
     }
-
 }

@@ -12,8 +12,6 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class HomeFragment : Fragment() {
@@ -108,15 +106,11 @@ class HomeFragment : Fragment() {
         gridLayout.columnCount = width
         gridLayout.rowCount = height
 
-        println("grid << columns=$width, rows=$height")
-
         mineField = Array(height) { IntArray(width) }
         revealed = Array(height) { BooleanArray(width) }
         buttons = Array(height) { arrayOfNulls<Button>(width) }
 
-        // Don't place mines yet - wait for first click
         createGrid()
-
         resultTextView.visibility = View.GONE
     }
 
@@ -131,7 +125,6 @@ class HomeFragment : Fragment() {
         while (minesPlaced < mines) {
             val x = Random.nextInt(width)
             val y = Random.nextInt(height)
-            // Don't place mine on the first clicked cell or adjacent cells
             val isSafeZone = (x == safeX && y == safeY) ||
                     (x in (safeX - 1)..(safeX + 1) && y in (safeY - 1)..(safeY + 1))
             if (!isSafeZone) {
@@ -221,8 +214,8 @@ class HomeFragment : Fragment() {
         for (dy in -1..1) {
             for (dx in -1..1) {
                 if (dx == 0 && dy == 0) continue
-                val nx = x + dx //new x
-                val ny = y + dy //new y
+                val nx = x + dx
+                val ny = y + dy
                 if (nx in 0 until width && ny in 0 until height && !revealed[ny][nx]) {
                     handleClick(nx, ny)
                 }
@@ -231,12 +224,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun gameOver() {
-        stopTimer() // Stop the timer
+        stopTimer()
         for (y in 0 until height) {
             for (x in 0 until width) {
                 if (mineField[y][x] == -1) {
                     buttons[y][x]?.text = "\uD83D\uDCA3"
                 }
+                buttons[y][x]?.isEnabled = false // Disable button
             }
         }
         resultTextView.text = "Game Over! Time: ${(System.currentTimeMillis() - startTime) / 1000} sec"
@@ -249,7 +243,12 @@ class HomeFragment : Fragment() {
                 if (!revealed[y][x] && mineField[y][x] != -1) return
             }
         }
-        stopTimer() // Stop the timer
+        stopTimer()
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                buttons[y][x]?.isEnabled = false // Disable button
+            }
+        }
         resultTextView.text = "Congratulations! Time: ${(System.currentTimeMillis() - startTime) / 1000} sec"
         resultTextView.visibility = View.VISIBLE
     }

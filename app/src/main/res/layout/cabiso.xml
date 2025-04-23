@@ -22,7 +22,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ledon"/>
+            android:src="@drawable/cabisodevpage"/>
     </androidx.cardview.widget.CardView>
 
 
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="A Computer Science Student from Cebu Institute of Technology - University"
+        android:text="A Computer Science student from Cebu Institute of Technology -University who has a keen curiosity about how my childhood games were created and would love to learn more."
         android:textColor="@color/white"
         android:textAlignment="center"
         android:layout_marginBottom="50dp"
